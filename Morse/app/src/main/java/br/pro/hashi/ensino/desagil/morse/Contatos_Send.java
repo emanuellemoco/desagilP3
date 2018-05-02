@@ -81,7 +81,7 @@ public class Contatos_Send extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                num = "+5511978284040";
+                num = "+5511972814040";
                 SmsManager manager = SmsManager.getDefault();
                 manager.sendTextMessage(num, null, msg, null, null);
                 openMainActivity();
