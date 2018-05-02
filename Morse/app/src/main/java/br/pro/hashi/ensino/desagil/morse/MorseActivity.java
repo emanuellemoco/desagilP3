@@ -9,11 +9,15 @@ import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MorseActivity extends AppCompatActivity {
 
-    String msg;
+    String msg = "";
+    String morse = "";
+    Translator translate = new Translator();
+    long initialTime;
+    long endTime;
 
     public void onBackPressed(){
         super.onBackPressed();
@@ -41,12 +45,15 @@ public class MorseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initialTime = System.currentTimeMillis();
         setContentView(R.layout.activity_morse);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Button button1 = (Button) findViewById(R.id.buttonSend);
-        ImageButton button2 = (ImageButton) findViewById(R.id.buttonMorse);
+        Button button2 = (Button) findViewById(R.id.buttonMorse);
+
+        final TextView text = (TextView) findViewById(R.id.textView);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,18 +65,44 @@ public class MorseActivity extends AppCompatActivity {
             }
 
         });
+        
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                msg = "";
+                endTime = System.currentTimeMillis();
 
+                if (endTime - initialTime > 4500){
+                    //Add o texto em msm
+                    msg += translate.morseToChar(morse);
+                    morse = "";
+                    initialTime = System.currentTimeMillis();
 
+                    text.setText(msg);
+
+                }
+
+                morse += ".";
             }
-
         });
 
+        button2.setOnLongClickListener(new View.OnLongClickListener(){
+            public boolean onLongClick(View view) {
+                endTime = System.currentTimeMillis();
 
+                if (endTime - initialTime > 4500){
+                    //Add o texto em msm
+                    msg += translate.morseToChar(morse);
+                    morse = "";
+                    initialTime = System.currentTimeMillis();
+
+                    text.setText(msg);
+                }
+
+                morse += "-";
+                return true;
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

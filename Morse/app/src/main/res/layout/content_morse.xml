@@ -19,7 +19,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="138dp"
-            android:text="A mensagem aparecerá aqui"
+            android:text="Mensagem"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="11dp" />
 
@@ -27,11 +27,11 @@
             android:id="@+id/buttonSend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Send"
+            android:text="Enviar"
             tools:layout_editor_absoluteX="120dp"
             tools:layout_editor_absoluteY="177dp" />
 
-        <ImageButton
+        <Button
             android:id="@+id/buttonMorse"
             android:layout_width="match_parent"
             android:layout_height="205dp"
