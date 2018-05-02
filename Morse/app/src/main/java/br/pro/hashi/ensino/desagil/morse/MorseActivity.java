@@ -65,21 +65,27 @@ public class MorseActivity extends AppCompatActivity {
             }
 
         });
-        
+
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 endTime = System.currentTimeMillis();
 
-                if (endTime - initialTime > 4500){
+                if (endTime - initialTime > 5000){
                     //Add o texto em msm
-                    msg += translate.morseToChar(morse);
+                    //Se tiver mais de 5 caracteres é um espaço
+                    if (morse.length() > 5){
+                        msg += " ";
+                    }
+
+                    else {
+                        msg += translate.morseToChar(morse);
+                    }
+
                     morse = "";
                     initialTime = System.currentTimeMillis();
-
                     text.setText(msg);
-
                 }
 
                 morse += ".";
@@ -90,12 +96,19 @@ public class MorseActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 endTime = System.currentTimeMillis();
 
-                if (endTime - initialTime > 4500){
+                if (endTime - initialTime > 5000){
                     //Add o texto em msm
-                    msg += translate.morseToChar(morse);
+                    //Se tiver mais de 5 caracteres é um espaço
+                    if (morse.length() > 5){
+                        msg += " ";
+                    }
+
+                    else {
+                        msg += translate.morseToChar(morse);
+                    }
+
                     morse = "";
                     initialTime = System.currentTimeMillis();
-
                     text.setText(msg);
                 }
 
