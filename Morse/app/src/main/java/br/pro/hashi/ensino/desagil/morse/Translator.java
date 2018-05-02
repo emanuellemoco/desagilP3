@@ -3,6 +3,7 @@ package br.pro.hashi.ensino.desagil.morse;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+
 public class Translator {
     // ESTA CLASSE NÃO PODE SER MODIFICADA!
     private class Node {
@@ -105,13 +106,11 @@ public class Translator {
         map.get('u').getRightChild().setParent(map.get('u'));
         map.get('u').getRightChild().setRightChild(map.get('2'));
 
-
         map.get('r').setParent(map.get('a'));
         map.get('r').setLeftChild(map.get('l'));
         map.get('r').setRightChild(new Node());
         map.get('r').getRightChild().setParent(map.get('r'));
         map.get('r').getRightChild().setLeftChild(map.get('+'));
-
 
         map.get('w').setParent(map.get('a'));
         map.get('w').setLeftChild(map.get('p'));
@@ -138,7 +137,6 @@ public class Translator {
         map.get('o').getRightChild().setLeftChild(map.get('9'));
         map.get('o').getRightChild().setRightChild(map.get('0'));
 
-
         map.get('h').setParent(map.get('s'));
         map.get('h').setLeftChild(map.get('5'));
         map.get('h').setRightChild(map.get('4'));
@@ -148,11 +146,9 @@ public class Translator {
 
         map.get('f').setParent(map.get('u'));
 
-
         map.get('l').setParent(map.get('r'));
 
         map.get('p').setParent(map.get('w'));
-
 
         map.get('j').setParent(map.get('w'));
         map.get('j').setRightChild(map.get('1'));
@@ -168,15 +164,22 @@ public class Translator {
 
         map.get('y').setParent(map.get('k'));
 
-
         map.get('z').setParent(map.get('g'));
         map.get('z').setLeftChild(map.get('7'));
 
         map.get('q').setParent(map.get('g'));
 
-
+        map.get('0').setParent(map.get('o').getRightChild());
+        map.get('1').setParent(map.get('j'));
+        map.get('2').setParent(map.get('u').getRightChild());
+        map.get('3').setParent(map.get('v'));
+        map.get('4').setParent(map.get('h'));
+        map.get('5').setParent(map.get('h'));
+        map.get('6').setParent(map.get('b'));
+        map.get('7').setParent(map.get('z'));
+        map.get('8').setParent(map.get('o').getLeftChild());
+        map.get('9').setParent(map.get('o').getLeftChild());
     }
-
 
     // ESTE MÉTODO DEVE SER PREENCHIDO DE ACORDO COM O ENUNCIADO!
     public char morseToChar(String code) {
@@ -185,26 +188,53 @@ public class Translator {
         for (int i = 0; i < code.length(); i++) {
             char caractere = code.charAt(i);
             if(caractere == '.') {
-                 currentNode = currentNode.getLeftChild();
-             }
-             else if(caractere == '-') {
-                 currentNode = currentNode.getRightChild();
-             }
-             else {
-                 currentNode = root;
-                 break;
-             }
+                currentNode = currentNode.getLeftChild();
+            }
+            else if(caractere == '-') {
+                currentNode = currentNode.getRightChild();
+            }
+            else {
+                currentNode = root;
+                break;
+            }
         }
-
         traduzido = currentNode.getValue();
-
         return traduzido;
     }
 
 
     // ESTE MÉTODO DEVE SER PREENCHIDO DE ACORDO COM O ENUNCIADO!
     public String charToMorse(char c) {
-        return null;
+
+        Stack<String> stack = new Stack<>();
+        Node node = map.get(c);
+        String string = new String();
+
+        while (node != root){
+            Node parent = node.getParent();
+            if (node == parent.getLeftChild()){
+                stack.push("left");
+            }
+            else if (node == parent.getRightChild()){
+                stack.push("right");
+            }
+            node = parent;
+        }
+        while(!stack.isEmpty()){
+            if (stack.peek() == "right"){
+                string += "-";
+                stack.pop();
+            }
+            else if (stack.peek() == "left"){
+                string += ".";
+                stack.pop();
+            }
+        }
+        return string;
     }
 
+    // ESTE MÉTODO DEVE SER PREENCHIDO DE ACORDO COM O ENUNCIADO!
+    public LinkedList<String> getCodes() {
+        return null;
+    }
 }
