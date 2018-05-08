@@ -2,6 +2,7 @@ package br.pro.hashi.ensino.desagil.morse;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Stack;
 
 
 public class Translator {
@@ -235,6 +236,15 @@ public class Translator {
 
     // ESTE MÉTODO DEVE SER PREENCHIDO DE ACORDO COM O ENUNCIADO!
     public LinkedList<String> getCodes() {
-        return null;
+
+        LinkedList lista = new LinkedList();
+
+        String letters = "etianmsurwdkgohvflpjbxcyzq5432167890";
+        for(int i=0;i < letters.length(); i++){
+            Character character = letters.charAt(i);
+            lista.add(charToMorse(character));
+        }
+
+        return lista;
     }
 }
