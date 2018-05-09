@@ -72,14 +72,20 @@ public class MorseActivity extends AppCompatActivity {
         
         final TextView textMorse = (TextView) findViewById(R.id.textViewMorse);
 
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("Mandei a mensagem" + msg);
-                openContatos_Send(msg);
-            }
+        if (msg == "" || msg == null) {
 
-        });
+            button1.setEnabled(true);
+        }
+        else{
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openContatos_Send(msg);
+                }
+
+            });
+
+        }
 
         final Handler handler = new Handler();
 

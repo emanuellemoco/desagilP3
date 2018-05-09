@@ -53,6 +53,7 @@ public class Contatos_Send extends AppCompatActivity {
         Intent intent = getIntent();
         msg = intent.getStringExtra("msg");
 
+
         //criamos botões para os números
         Button button1 = (Button) findViewById(R.id.button6);
         Button button2 = (Button) findViewById(R.id.button7);
