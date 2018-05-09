@@ -27,6 +27,7 @@
             android:name=".MorseActivity"
             android:label="@string/title_activity_morse"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Dictionary"></activity>
     </application>
 
 </manifest>
