@@ -63,8 +63,6 @@ public class MorseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initialTime = System.currentTimeMillis();
         setContentView(R.layout.activity_morse);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         Button button1 = (Button) findViewById(R.id.buttonSend);
         Button button2 = (Button) findViewById(R.id.buttonMorse);
@@ -92,7 +90,9 @@ public class MorseActivity extends AppCompatActivity {
             public void run() {
                 endTime = System.currentTimeMillis();
                 if (morse.length() > 5) {
-                    msg += " ";
+                    if(msg.length()>0){
+                    msg = msg.substring(0, msg.length() - 1);
+                }
                     morse = "";
                 } else if (endTime - initialTime > 1000 && morse.length() != 0) {
                     translatedChar = translate.morseToChar(morse);

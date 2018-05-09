@@ -10,9 +10,10 @@ import android.widget.TextView;
 public class Dictionary extends AppCompatActivity {
     String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
     Translator translate = new Translator();
-    //para funcionar o botão back
+
     String msg;
 
+    //para funcionar o botão back
     public void onBackPressed(){
         super.onBackPressed();
 
@@ -47,12 +48,12 @@ public class Dictionary extends AppCompatActivity {
 
         for (int i=0; i < alphabet.length() ;i++){
             Character character = alphabet.charAt(i);
-            dict1 += character + " " + translate.charToMorse(character) + "       ";
+            dict1 += "                " + character + "           ->           " + translate.charToMorse(character) + "\n";
         }
 
         for (int i=0; i<translate.getCodes().size(); i++){
             String string = translate.getCodes().get(i).toString();
-            dict2 += string + " " + translate.morseToChar(string) + "       ";
+            dict2 += "                " + string + "           ->           " + translate.morseToChar(string) + "\n";
         }
         dictionaryABC.setText(dict1);
         dictionaryMorse.setText(dict2);
