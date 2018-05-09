@@ -1,25 +1,28 @@
 package br.pro.hashi.ensino.desagil.morse;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.telephony.SmsManager;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+        import android.annotation.SuppressLint;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.os.Handler;
+        import android.support.design.widget.FloatingActionButton;
+        import android.support.design.widget.Snackbar;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
+        import android.view.MotionEvent;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.TextView;
 
 public class MorseActivity extends AppCompatActivity {
 
     String msg = "";
     String morse = "";
+    Character translatedChar;
     Translator translate = new Translator();
     long initialTime;
     long endTime;
 
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         openMessagesActivity();
         finish();
@@ -28,7 +31,14 @@ public class MorseActivity extends AppCompatActivity {
     private void openContatos_Send(String msg) {
         // Exemplo de código para abrir uma activity. Especificamente, a SendActivity.
         Intent intent = new Intent(this, Contatos_Send.class);
-        intent.putExtra("msg",msg);
+        intent.putExtra("msg", msg);
+        startActivity(intent);
+        finish();
+    }
+
+    private void openDictionary() {
+        // Exemplo de código para abrir uma activity. Especificamente, a SendActivity.
+        Intent intent = new Intent(this, Dictionary.class);
         startActivity(intent);
         finish();
     }
@@ -42,6 +52,7 @@ public class MorseActivity extends AppCompatActivity {
         finish();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,67 +70,63 @@ public class MorseActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                System.out.println("Mandei a mensagem" + msg);
                 openContatos_Send(msg);
-
-
             }
 
         });
 
+        final Handler handler = new Handler();
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        final long update_msg = 500; //Em milissegundos
+
+        Runnable periodicUpdate = new Runnable() {
             @Override
-            public void onClick(View view) {
+            public void run() {
                 endTime = System.currentTimeMillis();
-
-                if (endTime - initialTime > 4000){
-                    //Add o texto em msm
-                    //Se tiver mais de 5 caracteres é um espaço
-                    if (morse.length() > 5){
-                        msg += " ";
-                    }
-
-                    else {
-                        msg += translate.morseToChar(morse);
-                    }
-
+                if (morse.length() > 5) {
+                    msg += " ";
                     morse = "";
-                    initialTime = System.currentTimeMillis();
-                    text.setText(msg);
+                } else if (endTime - initialTime > 1000 && morse.length() != 0) {
+                    translatedChar = translate.morseToChar(morse);
+                    if (translatedChar == null) {
+                        msg += " ";
+                    } else {
+                        msg += translatedChar;
+                    }
+                    System.out.println(msg);
+                    morse = "";
                 }
-
-                morse += ".";
+                text.setText(msg);
                 textMorse.setText(morse);
-
-                initialTime = System.currentTimeMillis();
+                handler.postDelayed(this, update_msg);
             }
-        });
+        };
 
-        button2.setOnLongClickListener(new View.OnLongClickListener(){
-            public boolean onLongClick(View view) {
-                endTime = System.currentTimeMillis();
+        handler.postDelayed(periodicUpdate, update_msg);
 
-                if (endTime - initialTime > 4000){
-                    //Add o texto em msm
-                    //Se tiver mais de 5 caracteres é um espaço
-                    if (morse.length() > 5){
-                        msg += " ";
-                    }
 
-                    else {
-                        msg += translate.morseToChar(morse);
-                    }
-
-                    morse = "";
+        button2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     initialTime = System.currentTimeMillis();
-                    text.setText(msg);
+                    System.out.println("Down");
                 }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    endTime = System.currentTimeMillis();
+                    System.out.println("UP");
+                    if (endTime - initialTime > 400) {
+                        morse += "-";
+                        System.out.println("dash");
+                    } else {
+                        morse += ".";
+                        System.out.println("dot");
+                    }
+                    initialTime = System.currentTimeMillis();
+                    textMorse.setText(morse);
 
-                morse += "-";
-                textMorse.setText(morse);
-
-                initialTime = System.currentTimeMillis();
+                }
                 return true;
             }
         });
@@ -128,10 +135,9 @@ public class MorseActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Dicionário de morse aqui", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                openDictionary();
             }
         });
     }
-
 }
