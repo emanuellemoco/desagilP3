@@ -40,6 +40,7 @@ public class MesagesActivity extends AppCompatActivity {
     private void openMorseActivity() {
         // Exemplo de código para abrir uma activity. Especificamente, a SendActivity.
         Intent intent = new Intent(this, MorseActivity.class);
+        intent.putExtra("msg", msg);
         startActivity(intent);
         finish();
     }
@@ -61,6 +62,7 @@ public class MesagesActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                msg = "";
                 openMorseActivity();
 
             }

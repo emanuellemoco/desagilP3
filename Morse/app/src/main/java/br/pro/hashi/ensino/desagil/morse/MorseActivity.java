@@ -39,6 +39,7 @@ public class MorseActivity extends AppCompatActivity {
     private void openDictionary() {
         // Exemplo de código para abrir uma activity. Especificamente, a SendActivity.
         Intent intent = new Intent(this, Dictionary.class);
+        intent.putExtra("msg", msg);
         startActivity(intent);
         finish();
     }
@@ -55,6 +56,10 @@ public class MorseActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //pegando a mensagem da página anterior
+        Intent intent = getIntent();
+        msg = intent.getStringExtra("msg");
+
         super.onCreate(savedInstanceState);
         initialTime = System.currentTimeMillis();
         setContentView(R.layout.activity_morse);
@@ -116,12 +121,10 @@ public class MorseActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     endTime = System.currentTimeMillis();
                     System.out.println("UP");
-                    if (endTime - initialTime > 400) {
+                    if (endTime - initialTime > 350) {
                         morse += "-";
-                        System.out.println("dash");
                     } else {
                         morse += ".";
-                        System.out.println("dot");
                     }
                     initialTime = System.currentTimeMillis();
                     textMorse.setText(morse);

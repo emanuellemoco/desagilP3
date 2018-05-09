@@ -2,30 +2,41 @@ package br.pro.hashi.ensino.desagil.morse;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 public class Dictionary extends AppCompatActivity {
     String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
     Translator translate = new Translator();
     //para funcionar o botão back
+    String msg;
 
     public void onBackPressed(){
         super.onBackPressed();
-        openMessagesActivity();
+
+        Intent intent = new Intent(this, MorseActivity.class);
+        intent.putExtra("msg", msg);
+
+        openMorseActivity();
         finish();
     }
 
-    //função para ir para essa página
-    private void openMessagesActivity() {
+    //função para voltar para o morse
+    private void openMorseActivity() {
         Intent intent = new Intent(this, MorseActivity.class);
+        intent.putExtra("msg", msg);
         startActivity(intent);
-
         finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //pegando a mensagem da página anterior
+        Intent intent = getIntent();
+        msg = intent.getStringExtra("msg");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dict);
 
@@ -45,5 +56,14 @@ public class Dictionary extends AppCompatActivity {
         }
         dictionaryABC.setText(dict1);
         dictionaryMorse.setText(dict2);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                openMorseActivity();
+            }
+        });
     }
 }
