@@ -19,7 +19,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="138dp"
-            android:text="Mensagem"
+            android:text=""
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="11dp"
             android:textSize="20pt"/>
@@ -28,7 +28,7 @@
             android:id="@+id/textViewMorse"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:text="Morse"
+            android:text=""
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="11dp"
             android:textSize="20pt"/>

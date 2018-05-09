@@ -70,6 +70,8 @@ public class MorseActivity extends AppCompatActivity {
         Button button2 = (Button) findViewById(R.id.buttonMorse);
 
         final TextView text = (TextView) findViewById(R.id.textView);
+        text.setText(msg);
+        
         final TextView textMorse = (TextView) findViewById(R.id.textViewMorse);
 
         button1.setOnClickListener(new View.OnClickListener() {
