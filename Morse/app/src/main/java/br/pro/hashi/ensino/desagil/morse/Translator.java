@@ -189,7 +189,7 @@ public class Translator {
         map.get('q').setParent(map.get('g'));
         map.get('q').setRightChild(new Node());
         map.get('q').setLeftChild(new Node());
-        
+
         map.get('0').setParent(map.get('o').getRightChild());
         map.get('1').setParent(map.get('j'));
         map.get('2').setParent(map.get('u').getRightChild());
@@ -287,10 +287,10 @@ public class Translator {
             if(c != ' ') {
                 System.out.println(charToMorse(c));
                 list.add(charToMorse(c));
-
-            if (c == '0'){
-                break;
             }
+
+            if (c == '0') {
+                break;
             }
         }
 
