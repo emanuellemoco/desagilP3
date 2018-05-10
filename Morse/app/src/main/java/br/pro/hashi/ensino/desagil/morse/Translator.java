@@ -2,6 +2,7 @@ package br.pro.hashi.ensino.desagil.morse;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 
@@ -106,12 +107,14 @@ public class Translator {
         map.get('u').setRightChild(new Node());
         map.get('u').getRightChild().setParent(map.get('u'));
         map.get('u').getRightChild().setRightChild(map.get('2'));
+        map.get('u').getRightChild().setLeftChild(new Node());
 
         map.get('r').setParent(map.get('a'));
         map.get('r').setLeftChild(map.get('l'));
         map.get('r').setRightChild(new Node());
         map.get('r').getRightChild().setParent(map.get('r'));
-        map.get('r').getRightChild().setLeftChild(map.get('+'));
+        map.get('r').getRightChild().setLeftChild(new Node());
+        map.get('r').getRightChild().setRightChild(new Node());
 
         map.get('w').setParent(map.get('a'));
         map.get('w').setLeftChild(map.get('p'));
@@ -133,6 +136,7 @@ public class Translator {
         map.get('o').setLeftChild(new Node());
         map.get('o').getLeftChild().setParent(map.get('o'));
         map.get('o').getLeftChild().setLeftChild(map.get('8'));
+        map.get('o').getLeftChild().setRightChild(new Node());
         map.get('o').setRightChild(new Node());
         map.get('o').getRightChild().setParent(map.get('o'));
         map.get('o').getRightChild().setLeftChild(map.get('9'));
@@ -144,32 +148,48 @@ public class Translator {
 
         map.get('v').setParent(map.get('s'));
         map.get('v').setRightChild(map.get('3'));
+        map.get('v').setLeftChild(new Node());
 
         map.get('f').setParent(map.get('u'));
+        map.get('f').setRightChild(new Node());
+        map.get('f').setLeftChild(new Node());
 
         map.get('l').setParent(map.get('r'));
+        map.get('l').setRightChild(new Node());
+        map.get('l').setLeftChild(new Node());
 
         map.get('p').setParent(map.get('w'));
+        map.get('p').setRightChild(new Node());
+        map.get('p').setLeftChild(new Node());
 
         map.get('j').setParent(map.get('w'));
         map.get('j').setRightChild(map.get('1'));
+        map.get('j').setLeftChild(new Node());
 
         map.get('b').setParent(map.get('d'));
         map.get('b').setLeftChild(map.get('6'));
-        map.get('b').setRightChild(map.get('='));
+        map.get('b').setRightChild(new Node());
 
         map.get('x').setParent(map.get('d'));
-        map.get('x').setLeftChild(map.get('/'));
+        map.get('x').setLeftChild(new Node());
+        map.get('x').setRightChild(new Node());
 
         map.get('c').setParent(map.get('k'));
+        map.get('c').setRightChild(new Node());
+        map.get('c').setLeftChild(new Node());
 
         map.get('y').setParent(map.get('k'));
+        map.get('y').setRightChild(new Node());
+        map.get('y').setLeftChild(new Node());
 
         map.get('z').setParent(map.get('g'));
         map.get('z').setLeftChild(map.get('7'));
+        map.get('z').setRightChild(new Node());
 
         map.get('q').setParent(map.get('g'));
-
+        map.get('q').setRightChild(new Node());
+        map.get('q').setLeftChild(new Node());
+        
         map.get('0').setParent(map.get('o').getRightChild());
         map.get('1').setParent(map.get('j'));
         map.get('2').setParent(map.get('u').getRightChild());
@@ -179,7 +199,7 @@ public class Translator {
         map.get('6').setParent(map.get('b'));
         map.get('7').setParent(map.get('z'));
         map.get('8').setParent(map.get('o').getLeftChild());
-        map.get('9').setParent(map.get('o').getLeftChild());
+        map.get('9').setParent(map.get('o').getRightChild());
     }
 
     // ESTE MÉTODO DEVE SER PREENCHIDO DE ACORDO COM O ENUNCIADO!
@@ -237,14 +257,43 @@ public class Translator {
     // ESTE MÉTODO DEVE SER PREENCHIDO DE ACORDO COM O ENUNCIADO!
     public LinkedList<String> getCodes() {
 
-        LinkedList lista = new LinkedList();
+       // LinkedList lista = new LinkedList();
 
-        String letters = "etianmsurwdkgohvflpjbxcyzq5432167890";
-        for(int i=0;i < letters.length(); i++){
-            Character character = letters.charAt(i);
-            lista.add(charToMorse(character));
+       // String letters = "etianmsurwdkgohvflpjbxcyzq5432167890";
+       // for(int i=0;i < letters.length(); i++){
+       //     Character character = letters.charAt(i);
+       //     lista.add(charToMorse(character));
+       // }
+
+        Queue<Node> queue = new LinkedList<>();
+        LinkedList list = new LinkedList();
+
+        queue.add(root);
+        Node pollRoot = queue.poll();
+        queue.add(pollRoot.getLeftChild());
+        queue.add(pollRoot.getRightChild());
+
+        while(!queue.isEmpty()){
+            Node poll = queue.poll();
+            if (poll.getLeftChild()!= null){
+                queue.add(poll.getLeftChild());
+            }
+            if (poll.getRightChild()!= null) {
+                queue.add(poll.getRightChild());
+            }
+
+            Character c = poll.getValue();
+
+            if(c != ' ') {
+                System.out.println(charToMorse(c));
+                list.add(charToMorse(c));
+
+            if (c == '0'){
+                break;
+            }
+            }
         }
 
-        return lista;
+        return list;
     }
 }
