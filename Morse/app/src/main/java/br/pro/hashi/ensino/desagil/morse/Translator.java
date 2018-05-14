@@ -68,8 +68,7 @@ public class Translator {
             map.put(character, new Node(character));
         }
 
-        //pior trabalho evah... Daria pra fazer um algoritmo, mas tava com preguiça
-        //TODO: Se poder, fazer um algoritmo pra não encher o código de map.get...
+
 
         root.setRightChild(map.get('t'));
         root.setLeftChild(map.get('e'));
